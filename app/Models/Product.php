@@ -20,4 +20,10 @@ class Product extends Model
     public function wishlist(){
         return $this->belongsToMany('App\Models\Wishlist');
     }
+    public function category(){
+        return $this->belongsTo('App\Models\Category');
+    }
+    public function product(){
+        return $this->belongsTo('App\Models\Product');
+    }
 }

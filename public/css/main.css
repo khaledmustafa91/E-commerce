@@ -1,0 +1,19 @@
+.successAlert{
+    position: fixed !important;
+    z-index: 20;
+    padding: 20px;
+    margin-top: 535px;
+    margin-left: 48px;
+    display: none;
+}
+.DangerMessage{
+    position: fixed !important;
+    z-index: 20;
+    padding: 20px;
+    margin-top: 535px;
+    margin-left: 48px;
+    display: none;
+}
+.delete{
+    cursor: pointer;
+}
