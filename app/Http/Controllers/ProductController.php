@@ -13,7 +13,8 @@ class ProductController extends Controller
     //
     function index(){
         $products = Product::all();
-        return view('index' , compact('products'));
+        $numOfCartItems = 0;
+        return view('index' , compact(['numOfCartItems','products']));
     }
     function shop(){
         $products = Product::all();

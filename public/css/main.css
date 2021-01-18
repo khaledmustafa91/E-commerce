@@ -17,3 +17,12 @@
 .delete{
     cursor: pointer;
 }
+.completeDiv{
+    width: 166%;
+}
+.completeImg{
+    width: 146px;
+}
+.completeText{
+    margin-top:20px ;
+}

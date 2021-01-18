@@ -35,4 +35,21 @@ class OperationController extends Controller
             return response('added before',200);
         }
     }
+
+    function finalizeCart(){
+        $cart = new Cart; // initialize a cart object to save it to database
+        $user = User::find(Auth::user()->id); // find current user
+        $cartItems = $user->cart;
+        $quantities =  \request('quantity');
+        $subtotal = 0;
+        $total = 0;
+        for($i = 0 ; $i < count($cartItems) ; $i++){
+            $cartItems[$i]->quantity = $quantities[$i];
+            $cartItems[$i]->save();
+            $subtotal += $cartItems[$i]->product->price * $cartItems[$i]->quantity;
+        }
+        $total += ($subtotal*14)/100 + $subtotal;
+        return redirect('/checkout')->with(['subtotal' => $subtotal , 'total' => $total]);
+        //return \request('quantity');
+    }
 }

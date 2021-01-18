@@ -32,6 +32,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/core-style.css')}}">
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
+
+    <script src="{{asset('js/jquery/jquery-2.2.4.min.js')}}"></script>
 </head>
 
 <body>
@@ -89,7 +91,7 @@
                 <li class="active"><a href="/shop">Shop</a></li>
                 <li><a href="product-details.html">Product</a></li>
                 <li><a href="/cart">Cart</a></li>
-                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="/checkout">Checkout</a></li>
             </ul>
         </nav>
         <!-- Button Group -->
@@ -195,7 +197,7 @@
 
     <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
     <script src="{{asset('js/app.js')}}"></script>
-    <script src="{{asset('js/jquery/jquery-2.2.4.min.js')}}"></script>
+
     <!-- Popper js -->
     <script src="{{asset('js/popper.min.js')}}"></script>
     <!-- Bootstrap js -->

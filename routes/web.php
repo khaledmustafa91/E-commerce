@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OperationController;
+use App\Http\Controllers\ProductController;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Category;
@@ -23,20 +27,24 @@ use App\Models\User;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\ProductController::class , 'index']) ;
-Route::get('/shop', [\App\Http\Controllers\ProductController::class , 'shop']) ;
-Route::get('/shop/{category}' , [\App\Http\Controllers\ProductController::class,'category']);
-Route::post('/cart/{productId}' , [\App\Http\Controllers\OperationController::class,'addToCart']);
-Route::get('/cart' , [\App\Http\Controllers\CartController::class,'index']);
-Route::delete('/cart',[\App\Http\Controllers\CartController::class,'deleteCart']);
+Route::get('/', [ProductController::class , 'index']) ;
+Route::get('/shop', [ProductController::class , 'shop']) ;
+Route::get('/shop/{category}' , [ProductController::class,'category']);
 
 
+Route::post('/cart/{productId}' , [OperationController::class,'addToCart']);
 
 
-Route::get('/checkout' , function (){
-   // return request()->get('quantity');
-    return view('checkout');
-});
+Route::get('/cart' , [CartController::class,'index']);
+Route::post('/cart' , [OperationController::class,'finalizeCart']);
+
+Route::delete('/cart/{cartId}',[CartController::class,'deleteCart']);
+Route::get('/cart/changeBill/{productId}' , [CartController::class,'updateBill']);
+
+Route::get('/checkout' , [CheckoutController::class,'index']);
+Route::post('/checkout' , [CheckoutController::class,'makeOrder'])->middleware('auth');
+Route::get('/checkout/{orderId}' , [CheckoutController::class,'orderComplete']);
+
 //Route::post('/checkout' , function (){
 //    $user = User::find(Auth::user()->id);
 //    $address = new Address();

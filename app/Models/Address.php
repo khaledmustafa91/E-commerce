@@ -12,7 +12,9 @@ class Address extends Model
         'full_name',
         'address',
         'postcode',
-        'city'
+        'city',
+        'first_name',
+        'last_name'
     ];
     public function order(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
