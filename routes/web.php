@@ -30,20 +30,20 @@ use App\Models\User;
 Route::get('/', [ProductController::class , 'index']) ;
 Route::get('/shop', [ProductController::class , 'shop']) ;
 Route::get('/shop/{category}' , [ProductController::class,'category']);
+Route::get('/product-details/{productId}' , [ProductController::class,'productDetails']);
 
-
-Route::post('/cart/{productId}' , [OperationController::class,'addToCart']);
 
 
 Route::get('/cart' , [CartController::class,'index']);
 Route::post('/cart' , [OperationController::class,'finalizeCart']);
 
+Route::post('/cart/{productId}' , [OperationController::class,'addToCart']);
 Route::delete('/cart/{cartId}',[CartController::class,'deleteCart']);
 Route::get('/cart/changeBill/{productId}' , [CartController::class,'updateBill']);
 
-Route::get('/checkout' , [CheckoutController::class,'index']);
+Route::get('/checkout' , [CheckoutController::class,'index'])->middleware('auth');
 Route::post('/checkout' , [CheckoutController::class,'makeOrder'])->middleware('auth');
-Route::get('/checkout/{orderId}' , [CheckoutController::class,'orderComplete']);
+Route::get('/checkout/{orderId}' , [CheckoutController::class,'orderComplete'])->middleware('auth');
 
 //Route::post('/checkout' , function (){
 //    $user = User::find(Auth::user()->id);

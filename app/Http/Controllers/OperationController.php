@@ -13,8 +13,8 @@ class OperationController extends Controller
     //
     function addToCart($productID){
 
-
         $cart = new Cart; // initialize a cart object to save it to database
+        $cartItems = \request('cartItems'); // get the cart items from ajax request
 
         $user = User::find(Auth::user()->id); // find current user
         $lastCarts =  $user->cart->where('product_id' ,'=' , $productID);
@@ -22,7 +22,7 @@ class OperationController extends Controller
         if(count($lastCarts) == 0) {
             $product = Product::find($productID); // find the specific product return from front end
 
-            $cart->quantity = 1; // set value by default 1
+            $cart->quantity = $cartItems; // set value by value sent by ajax request
             $cart->user()->associate($user);
             $cart->product()->associate($product);
 
@@ -52,4 +52,26 @@ class OperationController extends Controller
         return redirect('/checkout')->with(['subtotal' => $subtotal , 'total' => $total]);
         //return \request('quantity');
     }
+
+    function addToWishlist($productID){
+
+        $user = User::find(Auth::user()->id); // find current user
+        $lastCarts =  $user->wishlist->where('product_id' ,'=' , $productID);
+
+        if(count($lastCarts) == 0) {
+            $product = Product::find($productID); // find the specific product return from front end
+
+            $wishlist = $user->wishlist;
+
+
+            if ($product->wishlist()->save($wishlist)) {
+                return response('', 200); // if cart item inserted successfully return 200 OK
+            } else {
+                return response('error', 404); // if not return 404 error
+            }
+        }else{
+            return response('added before',200);
+        }
+    }
+
 }

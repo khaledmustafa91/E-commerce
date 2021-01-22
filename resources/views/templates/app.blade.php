@@ -39,7 +39,6 @@
 <body>
 
 
-<!-- Search Wrapper Area Start -->
 <div class="search-wrapper section-padding-100">
     <div class="search-close">
         <i class="fa fa-close" aria-hidden="true"></i>
@@ -50,7 +49,7 @@
                 <div class="search-content">
                     <form action="#" method="get">
                         <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                        <button type="submit"><img src="{{asset('img/core-img/search.png')}}" alt=""></button>
+                        <button type="submit"><img src="img/core-img/search.png" alt=""></button>
                     </form>
                 </div>
             </div>
@@ -66,7 +65,7 @@
     <div class="mobile-nav">
         <!-- Navbar Brand -->
         <div class="amado-navbar-brand">
-            <a href="index.blade.php"><img src=" {{ asset('img/core-img/logo.png')}}" alt=""></a>
+            <a href="{{asset('index.blade.php')}}"><img src="{{asset('img/core-img/logo.png')}}" alt=""></a>
         </div>
         <!-- Navbar Toggler -->
         <div class="amado-navbar-toggler">
@@ -87,23 +86,43 @@
         <!-- Amado Nav -->
         <nav class="amado-nav">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li class="active"><a href="/shop">Shop</a></li>
-                <li><a href="product-details.html">Product</a></li>
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+{{--                <li><a href="/product-details">Product</a></li>--}}
                 <li><a href="/cart">Cart</a></li>
                 <li><a href="/checkout">Checkout</a></li>
             </ul>
         </nav>
         <!-- Button Group -->
         <div class="amado-btn-group mt-30 mb-100">
-            <a href="#" class="btn amado-btn mb-15">%Discount%</a>
-            <a href="#" class="btn amado-btn active">New this week</a>
+            @guest
+                @if (Route::has('login'))
+                    <a class="btn amado-btn mb-15" href="{{ route('login') }}">{{ __('Login') }}</a>
+                @endif
+                @if (Route::has('register'))
+                    <a class="btn amado-btn active" href="{{ route('register') }}">{{ __('Register') }}</a>
+                @endif
+            @else
+                    <a class="btn amado-btn  mb-15 " href="#" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
+
+                    <a class="btn amado-btn active" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+
+            @endguest
         </div>
         <!-- Cart Menu -->
         <div class="cart-fav-search mb-100">
-            <a href="/cart" class="cart-nav"><img src="{{ asset('img/core-img/cart.png') }}" alt=""> Cart <span>({{$numOfCartItems}})</span></a>
-            <a href="#" class="fav-nav"><img src="{{asset('img/core-img/favorites.png') }}" alt=""> Favourite</a>
-            <a href="#" class="search-nav"><img src="{{ asset('img/core-img/search.png') }}" alt=""> Search</a>
+            <a href="/cart" class="cart-nav"><img src="img/core-img/cart.png" alt=""> Cart ( <span class="numOfCartItems">{{$numOfCartItems}}</span> )</a>
+            <a href="#" class="fav-nav"><img src="img/core-img/favorites.png" alt=""> Favourite</a>
+            <a href="#" class="search-nav"><img src="img/core-img/search.png" alt=""> Search</a>
         </div>
         <!-- Social Button -->
         <div class="social-info d-flex justify-content-between">

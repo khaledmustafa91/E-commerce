@@ -12,6 +12,11 @@
                         </div>
 
                         <div class="cart-table clearfix">
+
+                            @if(count($products) <= 0)
+                                <img src="{{asset('img/cart-empty.png')}}" class="loginImg" alt="">
+                                <h3 class="text-center">Cart is empty !</h3>
+                            @else
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
@@ -43,17 +48,19 @@
                                                     <span class="qty-plus" onclick="increaseQuantity({{$products[$i]->id}})"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                                 </div>
                                             </div>
-{{--                                            <form method="post">--}}
-{{--                                                @method('DELETE')--}}
-{{--                                                @csrf--}}
-                                                <a onclick="deleteFromCart({{$userCarts[$i]->id}})"> <i class="fa fa-remove delete"></i> </a>
-{{--                                            </form>--}}
+                                            <form method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <a onclick="deleteFromCart({{$userCarts[$i]->id}},{{$products[$i]->id}})"> <i class="fa fa-remove delete"></i> </a>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endfor
 
                                 </tbody>
                             </table>
+                            @endif
+
                         </div>
                     </div>
                     <div class="col-12 col-lg-4">

@@ -13,24 +13,34 @@ class ProductController extends Controller
     //
     function index(){
         $products = Product::all();
-        $numOfCartItems = 0;
+        $cartController = new CartController();
+        $numOfCartItems = $cartController->calculateNumberofCartItems();
+
         return view('index' , compact(['numOfCartItems','products']));
     }
     function shop(){
         $products = Product::all();
         $categories = Category::all();
         $category = 0;
-        $user = User::find(Auth::user()->id);
-        $user = $user->cart;
-        $numOfCartItems = count($user);
+        $cartController = new CartController();
+        $numOfCartItems = $cartController->calculateNumberofCartItems();
+
         return view('shop' , compact(['products','categories' ,'category','numOfCartItems']));
     }
     function category($category){
         $products = Product::with('category' , 'product')->where('category_id' , '=' , $category)->get();
         $categories = Category::all();
-        $user = User::find(Auth::user()->id);
-        $user = $user->cart;
-        $numOfCartItems = count($user);
+        $cartController = new CartController();
+        $numOfCartItems = $cartController->calculateNumberofCartItems();
+
         return view('shop' , compact(['products','category' , 'categories','numOfCartItems']));
+    }
+    function productDetails($productId){
+        $product = Product::findOrFail($productId);
+        $category = $product->category;
+        $cartController = new CartController();
+        $numOfCartItems = $cartController->calculateNumberofCartItems();
+
+        return view('product-details' , compact(['product','category','numOfCartItems']));
     }
 }

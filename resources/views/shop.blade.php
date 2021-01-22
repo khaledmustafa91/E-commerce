@@ -160,7 +160,7 @@
                                 <div class="product-meta-data">
                                     <div class="line"></div>
                                     <p class="product-price">$ {{ $product->price }}</p>
-                                    <a href="product-details.html">
+                                    <a href="/product-details/{{$product->id}}">
                                         <h6>{{ $product->name }}</h6>
                                     </a>
                                 </div>
@@ -176,7 +176,9 @@
                                     <form action="" method="post">
                                         @csrf
                                         <div class="cart">
-                                            <a onclick="addToCart({{$product->id}})" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{{asset('img/core-img/cart.png')}}" alt=""></a>
+                                            <a onclick="addToCart({{$product->id}})" data-toggle="tooltip" data-placement="left" title="Add to wishlist"><img src="{{asset('img/core-img/love.png')}}" style="cursor: pointer" alt=""></a>
+                                            <a onclick="addToCart({{$product->id}})" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{{asset('img/core-img/cart.png')}}" style="cursor: pointer" alt=""></a>
+
                                         </div>
                                     </form>
                                 </div>

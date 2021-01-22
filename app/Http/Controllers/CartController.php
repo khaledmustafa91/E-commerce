@@ -12,15 +12,24 @@ class CartController extends Controller
 {
     //
     public function calculateNumberofCartItems(){
-        $user = User::find(Auth::user()->id);
-        $userCarts = $user->cart;
-        $numOfCartItems = count($userCarts);
+
+        if(Auth::check()) {
+            $user = User::find(Auth::user()->id);
+            $userCarts = $user->cart;
+            $numOfCartItems = count($userCarts);
+        }
+        else{
+            $numOfCartItems = 0;
+        }
         return $numOfCartItems;
     }
     function index(){
         //$cartItems = Cart::all()->where('user_id' , '=' , Auth::user()->id);
-        $user = User::find(Auth::user()->id);
-        $userCarts = $user->cart;
+        $userCarts = [];
+        if(Auth::check()) {
+            $user = User::find(Auth::user()->id);
+            $userCarts = $user->cart;
+        }
         $products = [];
         $subtotal = 0;
         $total = 0;
@@ -36,14 +45,24 @@ class CartController extends Controller
 
     function updateBill($productId){
         $product = Product::findOrFail($productId);
+        $user = User::find(Auth::user()->id);
+        $userCarts = $user->cart->where('product_id' , '=' , $productId);
+
+        $operation = \request('operation');
+        if($operation == 'plus') {
+            $userCarts->first()->quantity += 1 ;
+        }else{
+            $userCarts->first()->quantity -= 1 ;
+        }
+        $userCarts->first()->save();
         return response($product->price,200);
     }
 
     function deleteCart($cartId){
         $cart = Cart::findOrFail($cartId);
-
+        $product = Product::findOrFail($cart->product_id);
         if($cart->delete()){
-            return response('',200);
+            return response($product->price,200);
         }else{
             return response('Error' , 404);
         }
